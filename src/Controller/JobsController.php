@@ -12,8 +12,10 @@ class JobsController extends AbstractController
      */
     public function index()
     {
+        $user = $this->getUser();
+
         return $this->json([
-            'message' => 'Jobs controller!'
+            'message' => 'Jobs controller! (' . $user->getEmail() .')'
         ]);
     }
 }
