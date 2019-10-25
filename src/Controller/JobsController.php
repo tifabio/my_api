@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Job;
-use App\Form\JobType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,14 +17,11 @@ class JobsController extends AbstractController
      */
     public function index()
     {
-        $encoders = [new JsonEncoder()];
-        $normalizers = [new ObjectNormalizer()];
-
-        $serializer = new Serializer($normalizers, $encoders);
+        $serializer = new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
 
         $repository = $this->getDoctrine()->getRepository(Job::class);
 
-        $data = $repository->findBy(['user' => $this->getUser()]);
+        $data = $repository->findBy(['user' => $this->getUser()],['updated_at' => 'DESC']);
 
         $serializer->serialize($data, 'json');
 
@@ -52,6 +48,38 @@ class JobsController extends AbstractController
         $doctrine->persist($job);
         $doctrine->flush();
 
-        return $this->json(["id" => $job->getId()]);
+        return $this->json(['id' => $job->getId()]);
+    }
+
+    /**
+     * @Route("/jobs/{id}", methods={"PUT"})
+     */
+    public function update(int $id, Request $request)
+    {
+        $data = \json_decode($request->getContent());
+
+        $repository = $this->getDoctrine()->getRepository(Job::class);
+
+        $job = $repository->find($id);
+
+        if(!$job) {
+            return $this->json(['msg' => 'Job not found!'], 404);
+        }
+
+        if($job->getUser()->getId() !== $this->getUser()->getId()) {
+            return $this->json(null, 403);
+        }
+
+        $job->setTitle($data->title)
+            ->setCompany($data->company)
+            ->setLink($data->link)
+            ->setStatus($data->status)
+            ->setUpdatedAt(new \DateTime('now'));
+
+        $doctrine = $this->getDoctrine()->getManager();
+        $doctrine->merge($job);
+        $doctrine->flush();
+
+        return $this->json(['id' => $job->getId()]);
     }
 }

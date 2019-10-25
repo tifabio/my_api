@@ -52,6 +52,12 @@ class Job
      */
     private $updated_at;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\JobUpdate", mappedBy="job")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $jobUpdates;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -139,5 +145,10 @@ class Job
         $this->updated_at = $updated_at;
 
         return $this;
+    }
+
+    public function getJobUpdates()
+    {
+        return \count($this->jobUpdates);
     }
 }

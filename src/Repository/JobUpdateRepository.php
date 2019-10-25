@@ -2,27 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Job;
 use App\Entity\JobUpdate;
-use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method Job|null find($id, $lockMode = null, $lockVersion = null)
- * @method Job|null findOneBy(array $criteria, array $orderBy = null)
- * @method Job[]    findAll()
- * @method Job[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method JobUpdate|null find($id, $lockMode = null, $lockVersion = null)
+ * @method JobUpdate|null findOneBy(array $criteria, array $orderBy = null)
+ * @method JobUpdate[]    findAll()
+ * @method JobUpdate[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class JobRepository extends ServiceEntityRepository
+class JobUpdateRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Job::class);
+        parent::__construct($registry, JobUpdate::class);
     }
 
     // /**
-    //  * @return Job[] Returns an array of Job objects
+    //  * @return JobUpdate[] Returns an array of JobUpdate objects
     //  */
     /*
     public function findByExampleField($value)
@@ -39,7 +37,7 @@ class JobRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Job
+    public function findOneBySomeField($value): ?JobUpdate
     {
         return $this->createQueryBuilder('j')
             ->andWhere('j.exampleField = :val')
