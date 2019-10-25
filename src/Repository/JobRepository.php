@@ -3,8 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Job;
-use App\Entity\JobUpdate;
-use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 

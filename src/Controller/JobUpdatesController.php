@@ -7,9 +7,6 @@ use App\Entity\JobUpdate;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 
 class JobUpdatesController extends AbstractController
 {
@@ -30,13 +27,9 @@ class JobUpdatesController extends AbstractController
             return $this->json(null, 403);
         }
 
-        $serializer = new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
-
         $repository = $this->getDoctrine()->getRepository(JobUpdate::class);
 
-        $data = $repository->findBy(['job' => $job]);
-
-        $serializer->serialize($data, 'json');
+        $data = $repository->findBy(['job' => $job],['created_at' => 'DESC']);
 
         return $this->json($data);
     }

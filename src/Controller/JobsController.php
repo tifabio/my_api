@@ -6,9 +6,6 @@ use App\Entity\Job;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 
 class JobsController extends AbstractController
 {
@@ -17,13 +14,9 @@ class JobsController extends AbstractController
      */
     public function index()
     {
-        $serializer = new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
-
         $repository = $this->getDoctrine()->getRepository(Job::class);
 
         $data = $repository->findBy(['user' => $this->getUser()],['updated_at' => 'DESC']);
-
-        $serializer->serialize($data, 'json');
 
         return $this->json($data);
     }
