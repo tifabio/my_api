@@ -1,1 +1,1 @@
-# my_api
+# Training Symfony Skills
