@@ -5,20 +5,24 @@ namespace App\Controller;
 use App\Entity\Job;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class JobsController extends AbstractController
 {
     /**
      * @Route("/jobs", methods={"GET"})
      */
-    public function index()
+    public function index(SerializerInterface $serializer)
     {
         $repository = $this->getDoctrine()->getRepository(Job::class);
 
         $data = $repository->findBy(['user' => $this->getUser()],['updated_at' => 'DESC']);
 
-        return $this->json($data);
+        $serializedData = $serializer->serialize($data, 'json', ['groups' => ['rest']]);
+
+        return JsonResponse::fromJsonString($serializedData);
     }
 
     /**
