@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\JobUpdateRepository")
@@ -13,6 +14,7 @@ class JobUpdate
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"rest"})
      */
     private $id;
 
@@ -24,11 +26,13 @@ class JobUpdate
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"rest"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"rest"})
      */
     private $created_at;
 

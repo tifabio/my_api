@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\JobRepository")
@@ -13,6 +14,7 @@ class Job
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"rest"})
      */
     private $id;
 
@@ -24,37 +26,44 @@ class Job
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"rest"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"rest"})
      */
     private $company;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"rest"})
      */
     private $link;
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Groups({"rest"})
      */
     private $status;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"rest"})
      */
     private $created_at;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"rest"})
      */
     private $updated_at;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\JobUpdate", mappedBy="job")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"rest"})
      */
     private $jobUpdates;
 
